@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxgc.mapper.ArticleMapperCustom">
+  <resultMap id="BaseResultMap" type="com.xxgc.po.Article">
+    <id column="arid" jdbcType="INTEGER" property="arid" />
+    <result column="caid" jdbcType="INTEGER" property="caid" />
+    <result column="arnumber" jdbcType="VARCHAR" property="arnumber" />
+    <result column="artitle" jdbcType="VARCHAR" property="artitle" />
+    <result column="arimage" jdbcType="VARCHAR" property="arimage" />
+    <result column="aruser" jdbcType="VARCHAR" property="aruser" />
+    <result column="artime" jdbcType="VARCHAR" property="artime" />
+    <result column="arstate" jdbcType="VARCHAR" property="arstate" />
+    <result column="click" jdbcType="INTEGER" property="click" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.xxgc.po.Article">
+    <result column="arcontent" jdbcType="LONGVARCHAR" property="arcontent" />
+  </resultMap>
+  
+  <select id="findByPage" parameterType="Map" resultMap="BaseResultMap">
+  	select * from article order by arnumber+0 desc limit #{page},#{limit}
+  </select>
+  
+  <select id="findMaxCanumber" resultType="int">
+  	select max(arnumber+0) from article
+  </select>
+  
+  <select id="findByArid" parameterType="int" resultMap="BaseResultMap">
+  	select * from article where arid=#{arid}
+  </select>
+  
+  <select id="findArnumber" parameterType="String" resultType="String">
+  	select arnumber from article where (arnumber+0)> #{arnumber} order by arnumber+0 asc limit 1
+  </select>
+  
+   <select id="findByArtitle" parameterType="Map" resultMap="BaseResultMap">
+  	select * from article where artitle like CONCAT('%',#{artitle},'%')
+  </select>
+  
+  <insert id="saveArticle" parameterType="com.xxgc.po.Article" useGeneratedKeys="true" keyProperty="arid">
+  	insert into article (arid, caid, arnumber, 
+      artitle, arimage, aruser, 
+      artime, arstate, click, 
+      arcontent)
+    values (#{arid,jdbcType=INTEGER}, #{caid,jdbcType=INTEGER}, #{arnumber,jdbcType=VARCHAR}, 
+      #{artitle,jdbcType=VARCHAR}, #{arimage,jdbcType=VARCHAR}, #{aruser,jdbcType=VARCHAR}, 
+      #{artime,jdbcType=VARCHAR}, #{arstate,jdbcType=VARCHAR}, #{click,jdbcType=INTEGER}, 
+      #{arcontent,jdbcType=LONGVARCHAR})  
+  </insert>
+  
+  <update id="updateArticle" parameterType="com.xxgc.po.Article" >
+  	update article
+    set caid = #{caid,jdbcType=INTEGER},
+      arnumber = #{arnumber,jdbcType=VARCHAR},
+      artitle = #{artitle,jdbcType=VARCHAR},
+      arimage = #{arimage,jdbcType=VARCHAR},
+      aruser = #{aruser,jdbcType=VARCHAR},
+      artime = #{artime,jdbcType=VARCHAR},
+      arstate = #{arstate,jdbcType=VARCHAR},
+      click = #{click,jdbcType=INTEGER}
+    where arid = #{arid,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateExchange" parameterType="Map">
+  	update article AS a JOIN article AS b ON(a.arnumber = #{arnumber} AND b.arnumber= #{arnumberup}) OR (a.arnumber= #{arnumberup}  AND b.arnumber = #{arnumber})set b.arnumber=a.arnumber
+  </update>
+  
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxgc.mapper.ManagerMapperCustom">
+  <resultMap id="BaseResultMap" type="com.xxgc.po.Manager">
+    <id column="managerid" jdbcType="INTEGER" property="managerid" />
+    <result column="managername" jdbcType="VARCHAR" property="managername" />
+    <result column="passwd" jdbcType="VARCHAR" property="passwd" />
+    <result column="matate" jdbcType="VARCHAR" property="matate" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.xxgc.po.Manager">
+    <result column="maimage" jdbcType="LONGVARCHAR" property="maimage" />
+  </resultMap>
+  <select id="findByPage" parameterType="Map" resultMap="BaseResultMap">
+  	select * from manager order by managerid+0 desc limit #{page},#{limit}
+  </select>
+  <select id="findByName" parameterType="String" resultMap="BaseResultMap">
+  	select * from manager where managername = #{managerName} 
+  </select>
+  <insert id="saveManager" parameterType="com.xxgc.po.Manager" useGeneratedKeys="true" keyProperty="managerid">
+    insert into manager (managerid, managername, passwd, 
+      matate, maimage)
+    values (#{managerid,jdbcType=INTEGER}, #{managername,jdbcType=VARCHAR}, #{passwd,jdbcType=VARCHAR}, 
+      #{matate,jdbcType=VARCHAR}, #{maimage,jdbcType=LONGVARCHAR})
+  </insert>
+  <select id="searchByName" parameterType="Map" resultMap="BaseResultMap">
+  	select * from manager where managername like CONCAT('%',#{managername},'%')
+  </select>
+  
+  <update id="updateMaimage" parameterType="Map">
+  	update manager set maimage= #{maimage} where managername= #{managername}
+  </update>
+
+</mapper>

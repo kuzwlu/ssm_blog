@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxgc.mapper.ImagesMapper">
+  <resultMap id="BaseResultMap" type="com.xxgc.po.Images">
+    <id column="imid" jdbcType="INTEGER" property="imid" />
+    <result column="imtitle" jdbcType="VARCHAR" property="imtitle" />
+    <result column="imname" jdbcType="VARCHAR" property="imname" />
+    <result column="imdate" jdbcType="VARCHAR" property="imdate" />
+    <result column="imstate" jdbcType="VARCHAR" property="imstate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    imid, imtitle, imname, imdate, imstate
+  </sql>
+  <select id="selectByExample" parameterType="com.xxgc.po.ImagesExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from images
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from images
+    where imid = #{imid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from images
+    where imid = #{imid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xxgc.po.ImagesExample">
+    delete from images
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xxgc.po.Images">
+    insert into images (imid, imtitle, imname, 
+      imdate, imstate)
+    values (#{imid,jdbcType=INTEGER}, #{imtitle,jdbcType=VARCHAR}, #{imname,jdbcType=VARCHAR}, 
+      #{imdate,jdbcType=VARCHAR}, #{imstate,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xxgc.po.Images">
+    insert into images
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="imid != null">
+        imid,
+      </if>
+      <if test="imtitle != null">
+        imtitle,
+      </if>
+      <if test="imname != null">
+        imname,
+      </if>
+      <if test="imdate != null">
+        imdate,
+      </if>
+      <if test="imstate != null">
+        imstate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="imid != null">
+        #{imid,jdbcType=INTEGER},
+      </if>
+      <if test="imtitle != null">
+        #{imtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="imname != null">
+        #{imname,jdbcType=VARCHAR},
+      </if>
+      <if test="imdate != null">
+        #{imdate,jdbcType=VARCHAR},
+      </if>
+      <if test="imstate != null">
+        #{imstate,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xxgc.po.ImagesExample" resultType="java.lang.Long">
+    select count(*) from images
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update images
+    <set>
+      <if test="record.imid != null">
+        imid = #{record.imid,jdbcType=INTEGER},
+      </if>
+      <if test="record.imtitle != null">
+        imtitle = #{record.imtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imname != null">
+        imname = #{record.imname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imdate != null">
+        imdate = #{record.imdate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imstate != null">
+        imstate = #{record.imstate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update images
+    set imid = #{record.imid,jdbcType=INTEGER},
+      imtitle = #{record.imtitle,jdbcType=VARCHAR},
+      imname = #{record.imname,jdbcType=VARCHAR},
+      imdate = #{record.imdate,jdbcType=VARCHAR},
+      imstate = #{record.imstate,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xxgc.po.Images">
+    update images
+    <set>
+      <if test="imtitle != null">
+        imtitle = #{imtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="imname != null">
+        imname = #{imname,jdbcType=VARCHAR},
+      </if>
+      <if test="imdate != null">
+        imdate = #{imdate,jdbcType=VARCHAR},
+      </if>
+      <if test="imstate != null">
+        imstate = #{imstate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where imid = #{imid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xxgc.po.Images">
+    update images
+    set imtitle = #{imtitle,jdbcType=VARCHAR},
+      imname = #{imname,jdbcType=VARCHAR},
+      imdate = #{imdate,jdbcType=VARCHAR},
+      imstate = #{imstate,jdbcType=VARCHAR}
+    where imid = #{imid,jdbcType=INTEGER}
+  </update>
+</mapper>

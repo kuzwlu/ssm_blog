@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxgc.mapper.MessageMapper">
+  <resultMap id="BaseResultMap" type="com.xxgc.po.Message">
+    <id column="meid" jdbcType="INTEGER" property="meid" />
+    <result column="arid" jdbcType="INTEGER" property="arid" />
+    <result column="metitle" jdbcType="VARCHAR" property="metitle" />
+    <result column="userid" jdbcType="INTEGER" property="userid" />
+    <result column="managerid" jdbcType="INTEGER" property="managerid" />
+    <result column="metime" jdbcType="VARCHAR" property="metime" />
+    <result column="mestate" jdbcType="VARCHAR" property="mestate" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.xxgc.po.Message">
+    <result column="mecontent" jdbcType="LONGVARCHAR" property="mecontent" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    meid, arid, metitle, userid, managerid, metime, mestate
+  </sql>
+  <sql id="Blob_Column_List">
+    mecontent
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.xxgc.po.MessageExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from message
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.xxgc.po.MessageExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from message
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from message
+    where meid = #{meid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from message
+    where meid = #{meid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xxgc.po.MessageExample">
+    delete from message
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xxgc.po.Message">
+    insert into message (meid, arid, metitle, 
+      userid, managerid, metime, 
+      mestate, mecontent)
+    values (#{meid,jdbcType=INTEGER}, #{arid,jdbcType=INTEGER}, #{metitle,jdbcType=VARCHAR}, 
+      #{userid,jdbcType=INTEGER}, #{managerid,jdbcType=INTEGER}, #{metime,jdbcType=VARCHAR}, 
+      #{mestate,jdbcType=VARCHAR}, #{mecontent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xxgc.po.Message">
+    insert into message
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="meid != null">
+        meid,
+      </if>
+      <if test="arid != null">
+        arid,
+      </if>
+      <if test="metitle != null">
+        metitle,
+      </if>
+      <if test="userid != null">
+        userid,
+      </if>
+      <if test="managerid != null">
+        managerid,
+      </if>
+      <if test="metime != null">
+        metime,
+      </if>
+      <if test="mestate != null">
+        mestate,
+      </if>
+      <if test="mecontent != null">
+        mecontent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="meid != null">
+        #{meid,jdbcType=INTEGER},
+      </if>
+      <if test="arid != null">
+        #{arid,jdbcType=INTEGER},
+      </if>
+      <if test="metitle != null">
+        #{metitle,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="managerid != null">
+        #{managerid,jdbcType=INTEGER},
+      </if>
+      <if test="metime != null">
+        #{metime,jdbcType=VARCHAR},
+      </if>
+      <if test="mestate != null">
+        #{mestate,jdbcType=VARCHAR},
+      </if>
+      <if test="mecontent != null">
+        #{mecontent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xxgc.po.MessageExample" resultType="java.lang.Long">
+    select count(*) from message
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update message
+    <set>
+      <if test="record.meid != null">
+        meid = #{record.meid,jdbcType=INTEGER},
+      </if>
+      <if test="record.arid != null">
+        arid = #{record.arid,jdbcType=INTEGER},
+      </if>
+      <if test="record.metitle != null">
+        metitle = #{record.metitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userid != null">
+        userid = #{record.userid,jdbcType=INTEGER},
+      </if>
+      <if test="record.managerid != null">
+        managerid = #{record.managerid,jdbcType=INTEGER},
+      </if>
+      <if test="record.metime != null">
+        metime = #{record.metime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mestate != null">
+        mestate = #{record.mestate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mecontent != null">
+        mecontent = #{record.mecontent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update message
+    set meid = #{record.meid,jdbcType=INTEGER},
+      arid = #{record.arid,jdbcType=INTEGER},
+      metitle = #{record.metitle,jdbcType=VARCHAR},
+      userid = #{record.userid,jdbcType=INTEGER},
+      managerid = #{record.managerid,jdbcType=INTEGER},
+      metime = #{record.metime,jdbcType=VARCHAR},
+      mestate = #{record.mestate,jdbcType=VARCHAR},
+      mecontent = #{record.mecontent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update message
+    set meid = #{record.meid,jdbcType=INTEGER},
+      arid = #{record.arid,jdbcType=INTEGER},
+      metitle = #{record.metitle,jdbcType=VARCHAR},
+      userid = #{record.userid,jdbcType=INTEGER},
+      managerid = #{record.managerid,jdbcType=INTEGER},
+      metime = #{record.metime,jdbcType=VARCHAR},
+      mestate = #{record.mestate,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xxgc.po.Message">
+    update message
+    <set>
+      <if test="arid != null">
+        arid = #{arid,jdbcType=INTEGER},
+      </if>
+      <if test="metitle != null">
+        metitle = #{metitle,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        userid = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="managerid != null">
+        managerid = #{managerid,jdbcType=INTEGER},
+      </if>
+      <if test="metime != null">
+        metime = #{metime,jdbcType=VARCHAR},
+      </if>
+      <if test="mestate != null">
+        mestate = #{mestate,jdbcType=VARCHAR},
+      </if>
+      <if test="mecontent != null">
+        mecontent = #{mecontent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where meid = #{meid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xxgc.po.Message">
+    update message
+    set arid = #{arid,jdbcType=INTEGER},
+      metitle = #{metitle,jdbcType=VARCHAR},
+      userid = #{userid,jdbcType=INTEGER},
+      managerid = #{managerid,jdbcType=INTEGER},
+      metime = #{metime,jdbcType=VARCHAR},
+      mestate = #{mestate,jdbcType=VARCHAR},
+      mecontent = #{mecontent,jdbcType=LONGVARCHAR}
+    where meid = #{meid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xxgc.po.Message">
+    update message
+    set arid = #{arid,jdbcType=INTEGER},
+      metitle = #{metitle,jdbcType=VARCHAR},
+      userid = #{userid,jdbcType=INTEGER},
+      managerid = #{managerid,jdbcType=INTEGER},
+      metime = #{metime,jdbcType=VARCHAR},
+      mestate = #{mestate,jdbcType=VARCHAR}
+    where meid = #{meid,jdbcType=INTEGER}
+  </update>
+</mapper>

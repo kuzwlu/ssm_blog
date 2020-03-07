@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxgc.mapper.ManagerMapper">
+  <resultMap id="BaseResultMap" type="com.xxgc.po.Manager">
+    <id column="managerid" jdbcType="INTEGER" property="managerid" />
+    <result column="managername" jdbcType="VARCHAR" property="managername" />
+    <result column="passwd" jdbcType="VARCHAR" property="passwd" />
+    <result column="matate" jdbcType="VARCHAR" property="matate" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.xxgc.po.Manager">
+    <result column="maimage" jdbcType="LONGVARCHAR" property="maimage" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    managerid, managername, passwd, matate
+  </sql>
+  <sql id="Blob_Column_List">
+    maimage
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.xxgc.po.ManagerExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from manager
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.xxgc.po.ManagerExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from manager
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from manager
+    where managerid = #{managerid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from manager
+    where managerid = #{managerid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xxgc.po.ManagerExample">
+    delete from manager
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xxgc.po.Manager">
+    insert into manager (managerid, managername, passwd, 
+      matate, maimage)
+    values (#{managerid,jdbcType=INTEGER}, #{managername,jdbcType=VARCHAR}, #{passwd,jdbcType=VARCHAR}, 
+      #{matate,jdbcType=VARCHAR}, #{maimage,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xxgc.po.Manager">
+    insert into manager
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="managerid != null">
+        managerid,
+      </if>
+      <if test="managername != null">
+        managername,
+      </if>
+      <if test="passwd != null">
+        passwd,
+      </if>
+      <if test="matate != null">
+        matate,
+      </if>
+      <if test="maimage != null">
+        maimage,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="managerid != null">
+        #{managerid,jdbcType=INTEGER},
+      </if>
+      <if test="managername != null">
+        #{managername,jdbcType=VARCHAR},
+      </if>
+      <if test="passwd != null">
+        #{passwd,jdbcType=VARCHAR},
+      </if>
+      <if test="matate != null">
+        #{matate,jdbcType=VARCHAR},
+      </if>
+      <if test="maimage != null">
+        #{maimage,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xxgc.po.ManagerExample" resultType="java.lang.Long">
+    select count(*) from manager
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update manager
+    <set>
+      <if test="record.managerid != null">
+        managerid = #{record.managerid,jdbcType=INTEGER},
+      </if>
+      <if test="record.managername != null">
+        managername = #{record.managername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.passwd != null">
+        passwd = #{record.passwd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.matate != null">
+        matate = #{record.matate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.maimage != null">
+        maimage = #{record.maimage,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update manager
+    set managerid = #{record.managerid,jdbcType=INTEGER},
+      managername = #{record.managername,jdbcType=VARCHAR},
+      passwd = #{record.passwd,jdbcType=VARCHAR},
+      matate = #{record.matate,jdbcType=VARCHAR},
+      maimage = #{record.maimage,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update manager
+    set managerid = #{record.managerid,jdbcType=INTEGER},
+      managername = #{record.managername,jdbcType=VARCHAR},
+      passwd = #{record.passwd,jdbcType=VARCHAR},
+      matate = #{record.matate,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xxgc.po.Manager">
+    update manager
+    <set>
+      <if test="managername != null">
+        managername = #{managername,jdbcType=VARCHAR},
+      </if>
+      <if test="passwd != null">
+        passwd = #{passwd,jdbcType=VARCHAR},
+      </if>
+      <if test="matate != null">
+        matate = #{matate,jdbcType=VARCHAR},
+      </if>
+      <if test="maimage != null">
+        maimage = #{maimage,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where managerid = #{managerid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xxgc.po.Manager">
+    update manager
+    set managername = #{managername,jdbcType=VARCHAR},
+      passwd = #{passwd,jdbcType=VARCHAR},
+      matate = #{matate,jdbcType=VARCHAR},
+      maimage = #{maimage,jdbcType=LONGVARCHAR}
+    where managerid = #{managerid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xxgc.po.Manager">
+    update manager
+    set managername = #{managername,jdbcType=VARCHAR},
+      passwd = #{passwd,jdbcType=VARCHAR},
+      matate = #{matate,jdbcType=VARCHAR}
+    where managerid = #{managerid,jdbcType=INTEGER}
+  </update>
+</mapper>

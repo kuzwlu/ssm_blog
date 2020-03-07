@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxgc.mapper.CatalogMapperCustom">
+  <resultMap id="BaseResultMap" type="com.xxgc.po.Catalog">
+    <id column="caid" jdbcType="INTEGER" property="caid" />
+    <result column="caname" jdbcType="VARCHAR" property="caname" />
+    <result column="canumber" jdbcType="VARCHAR" property="canumber" />
+    <result column="castate" jdbcType="VARCHAR" property="castate" />
+  </resultMap>
+  <select id="findByPage" parameterType="Map" resultMap="BaseResultMap">
+  	select * from catalog order by canumber+0 desc limit #{page},#{limit}
+  </select>
+  
+  <select id="findMaxCanumber" resultType="int">
+  	select max(canumber+0) from catalog
+  </select>
+  
+  <select id="findByName" parameterType="String" resultMap="BaseResultMap">
+  	select * from catalog where caname = #{caname}
+  </select>
+  
+  <select id="findCanumber" parameterType="String" resultType="String">
+  	select canumber from catalog where (canumber+0)> #{canumber} order by canumber+0 asc limit 1
+  </select>
+  
+   <select id="searchByName" parameterType="String" resultMap="BaseResultMap">
+  	select * from catalog where caname like CONCAT('%',#{caname},'%')
+  </select>
+  
+  <insert id="saveCatalog" parameterType="com.xxgc.po.Catalog" useGeneratedKeys="true" keyProperty="caid">
+    insert into catalog (caid, caname, canumber,castate)
+    values (#{caid,jdbcType=INTEGER}, #{caname,jdbcType=VARCHAR}, #{canumber,jdbcType=VARCHAR}, 
+      #{castate,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="updateExchange" parameterType="Map">
+  	update catalog AS a JOIN catalog AS b ON(a.canumber = #{canumber} AND b.canumber= #{canumberup}) OR (a.canumber= #{canumberup}  AND b.canumber = #{canumber})set b.canumber=a.canumber
+  </update>
+  
+  <update id="delateUpdate" parameterType="String">
+  	update catalog set canumber =canumber-1 where canumber>#{canumber};
+  </update>
+</mapper>

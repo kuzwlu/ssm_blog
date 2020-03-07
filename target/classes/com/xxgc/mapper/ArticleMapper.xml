@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxgc.mapper.ArticleMapper">
+  <resultMap id="BaseResultMap" type="com.xxgc.po.Article">
+    <id column="arid" jdbcType="INTEGER" property="arid" />
+    <result column="caid" jdbcType="INTEGER" property="caid" />
+    <result column="arnumber" jdbcType="VARCHAR" property="arnumber" />
+    <result column="artitle" jdbcType="VARCHAR" property="artitle" />
+    <result column="arimage" jdbcType="VARCHAR" property="arimage" />
+    <result column="aruser" jdbcType="VARCHAR" property="aruser" />
+    <result column="artime" jdbcType="VARCHAR" property="artime" />
+    <result column="arstate" jdbcType="VARCHAR" property="arstate" />
+    <result column="click" jdbcType="INTEGER" property="click" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.xxgc.po.Article">
+    <result column="arcontent" jdbcType="LONGVARCHAR" property="arcontent" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    arid, caid, arnumber, artitle, arimage, aruser, artime, arstate, click
+  </sql>
+  <sql id="Blob_Column_List">
+    arcontent
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.xxgc.po.ArticleExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from article
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.xxgc.po.ArticleExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from article
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from article
+    where arid = #{arid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from article
+    where arid = #{arid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xxgc.po.ArticleExample">
+    delete from article
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xxgc.po.Article">
+    insert into article (arid, caid, arnumber, 
+      artitle, arimage, aruser, 
+      artime, arstate, click, 
+      arcontent)
+    values (#{arid,jdbcType=INTEGER}, #{caid,jdbcType=INTEGER}, #{arnumber,jdbcType=VARCHAR}, 
+      #{artitle,jdbcType=VARCHAR}, #{arimage,jdbcType=VARCHAR}, #{aruser,jdbcType=VARCHAR}, 
+      #{artime,jdbcType=VARCHAR}, #{arstate,jdbcType=VARCHAR}, #{click,jdbcType=INTEGER}, 
+      #{arcontent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xxgc.po.Article">
+    insert into article
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="arid != null">
+        arid,
+      </if>
+      <if test="caid != null">
+        caid,
+      </if>
+      <if test="arnumber != null">
+        arnumber,
+      </if>
+      <if test="artitle != null">
+        artitle,
+      </if>
+      <if test="arimage != null">
+        arimage,
+      </if>
+      <if test="aruser != null">
+        aruser,
+      </if>
+      <if test="artime != null">
+        artime,
+      </if>
+      <if test="arstate != null">
+        arstate,
+      </if>
+      <if test="click != null">
+        click,
+      </if>
+      <if test="arcontent != null">
+        arcontent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="arid != null">
+        #{arid,jdbcType=INTEGER},
+      </if>
+      <if test="caid != null">
+        #{caid,jdbcType=INTEGER},
+      </if>
+      <if test="arnumber != null">
+        #{arnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="artitle != null">
+        #{artitle,jdbcType=VARCHAR},
+      </if>
+      <if test="arimage != null">
+        #{arimage,jdbcType=VARCHAR},
+      </if>
+      <if test="aruser != null">
+        #{aruser,jdbcType=VARCHAR},
+      </if>
+      <if test="artime != null">
+        #{artime,jdbcType=VARCHAR},
+      </if>
+      <if test="arstate != null">
+        #{arstate,jdbcType=VARCHAR},
+      </if>
+      <if test="click != null">
+        #{click,jdbcType=INTEGER},
+      </if>
+      <if test="arcontent != null">
+        #{arcontent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xxgc.po.ArticleExample" resultType="java.lang.Long">
+    select count(*) from article
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update article
+    <set>
+      <if test="record.arid != null">
+        arid = #{record.arid,jdbcType=INTEGER},
+      </if>
+      <if test="record.caid != null">
+        caid = #{record.caid,jdbcType=INTEGER},
+      </if>
+      <if test="record.arnumber != null">
+        arnumber = #{record.arnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.artitle != null">
+        artitle = #{record.artitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.arimage != null">
+        arimage = #{record.arimage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.aruser != null">
+        aruser = #{record.aruser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.artime != null">
+        artime = #{record.artime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.arstate != null">
+        arstate = #{record.arstate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.click != null">
+        click = #{record.click,jdbcType=INTEGER},
+      </if>
+      <if test="record.arcontent != null">
+        arcontent = #{record.arcontent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update article
+    set arid = #{record.arid,jdbcType=INTEGER},
+      caid = #{record.caid,jdbcType=INTEGER},
+      arnumber = #{record.arnumber,jdbcType=VARCHAR},
+      artitle = #{record.artitle,jdbcType=VARCHAR},
+      arimage = #{record.arimage,jdbcType=VARCHAR},
+      aruser = #{record.aruser,jdbcType=VARCHAR},
+      artime = #{record.artime,jdbcType=VARCHAR},
+      arstate = #{record.arstate,jdbcType=VARCHAR},
+      click = #{record.click,jdbcType=INTEGER},
+      arcontent = #{record.arcontent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update article
+    set arid = #{record.arid,jdbcType=INTEGER},
+      caid = #{record.caid,jdbcType=INTEGER},
+      arnumber = #{record.arnumber,jdbcType=VARCHAR},
+      artitle = #{record.artitle,jdbcType=VARCHAR},
+      arimage = #{record.arimage,jdbcType=VARCHAR},
+      aruser = #{record.aruser,jdbcType=VARCHAR},
+      artime = #{record.artime,jdbcType=VARCHAR},
+      arstate = #{record.arstate,jdbcType=VARCHAR},
+      click = #{record.click,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xxgc.po.Article">
+    update article
+    <set>
+      <if test="caid != null">
+        caid = #{caid,jdbcType=INTEGER},
+      </if>
+      <if test="arnumber != null">
+        arnumber = #{arnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="artitle != null">
+        artitle = #{artitle,jdbcType=VARCHAR},
+      </if>
+      <if test="arimage != null">
+        arimage = #{arimage,jdbcType=VARCHAR},
+      </if>
+      <if test="aruser != null">
+        aruser = #{aruser,jdbcType=VARCHAR},
+      </if>
+      <if test="artime != null">
+        artime = #{artime,jdbcType=VARCHAR},
+      </if>
+      <if test="arstate != null">
+        arstate = #{arstate,jdbcType=VARCHAR},
+      </if>
+      <if test="click != null">
+        click = #{click,jdbcType=INTEGER},
+      </if>
+      <if test="arcontent != null">
+        arcontent = #{arcontent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where arid = #{arid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xxgc.po.Article">
+    update article
+    set caid = #{caid,jdbcType=INTEGER},
+      arnumber = #{arnumber,jdbcType=VARCHAR},
+      artitle = #{artitle,jdbcType=VARCHAR},
+      arimage = #{arimage,jdbcType=VARCHAR},
+      aruser = #{aruser,jdbcType=VARCHAR},
+      artime = #{artime,jdbcType=VARCHAR},
+      arstate = #{arstate,jdbcType=VARCHAR},
+      click = #{click,jdbcType=INTEGER},
+      arcontent = #{arcontent,jdbcType=LONGVARCHAR}
+    where arid = #{arid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xxgc.po.Article">
+    update article
+    set caid = #{caid,jdbcType=INTEGER},
+      arnumber = #{arnumber,jdbcType=VARCHAR},
+      artitle = #{artitle,jdbcType=VARCHAR},
+      arimage = #{arimage,jdbcType=VARCHAR},
+      aruser = #{aruser,jdbcType=VARCHAR},
+      artime = #{artime,jdbcType=VARCHAR},
+      arstate = #{arstate,jdbcType=VARCHAR},
+      click = #{click,jdbcType=INTEGER}
+    where arid = #{arid,jdbcType=INTEGER}
+  </update>
+</mapper>
